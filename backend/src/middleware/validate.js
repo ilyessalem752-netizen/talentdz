@@ -42,7 +42,7 @@ exports.jobSchema = Joi.object({
   level: Joi.string().valid('junior', 'intermediaire', 'senior', 'manager', 'directeur', 'etudiant').required(),
   sector: Joi.string().optional(),
   wilaya: Joi.string().optional(),
-  city: Joi.string().optional().allow(''),
+  city: Joi.any().optional(),
   remote: Joi.string().valid('onsite', 'remote', 'hybrid').default('onsite'),
   skills: Joi.array().items(Joi.string()).optional(),
   education: Joi.string().optional(),
