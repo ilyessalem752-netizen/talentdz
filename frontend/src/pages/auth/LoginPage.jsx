@@ -31,12 +31,21 @@ export default function LoginPage() {
     if (!validate()) return;
     setLoading(true);
     try {
-      const user = await login(form.email, form.password);
-      localStorage.setItem('accessToken', user.token);
-      toast.success('Connexion réussie !');
-     window.location.href = '/admin/dashboard';
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Erreur de connexion');
+  const user = await login(form.email, form.password);
+
+  toast.success('Connexion réussie !');
+
+  if (user.role === 'student') {
+    window.location.href = '/student/dashboard';
+  } else if (user.role === 'company') {
+    window.location.href = '/company/dashboard';
+  } else {
+    window.location.href = '/admin/dashboard';
+  }
+
+} catch (err) {
+  toast.error(err.response?.data?.message || 'Erreur de connexion');
+
     } finally {
       setLoading(false);
     }

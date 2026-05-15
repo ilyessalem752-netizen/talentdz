@@ -28,13 +28,26 @@ export function AuthProvider({ children }) {
     else setLoading(false);
   }, [fetchMe]);
 
-  const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
-    localStorage.setItem('accessToken', data.accessToken);
-    setUser(data.user);
-    await fetchMe();
-    return data.user;
+ const login = async (email, password) => {
+  const { data } = await api.post('/auth/login', {
+    email,
+    password
+  });
+
+  const token = data.accessToken || data.token;
+
+  if (token) {
+    localStorage.setItem('accessToken', token);
+  }
+
+  setUser(data.user);
+
+  return {
+    ...data.user,
+    token
   };
+};
+  
 
   const registerStudent = async (formData) => {
     const { data } = await api.post('/auth/register/student', formData);
