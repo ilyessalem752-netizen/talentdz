@@ -36,11 +36,11 @@ export default function LoginPage() {
   toast.success('Connexion réussie !');
 
   if (user.role === 'student') {
-    window.location.href = '/student/dashboard';
+    window.location.href = '#/student/dashboard';
   } else if (user.role === 'company') {
-    window.location.href = '/company/dashboard';
+    window.location.href = '#/company/dashboard';
   } else {
-    window.location.href = '/admin/dashboard';
+    window.location.href = '#/admin/dashboard';
   }
 
 } catch (err) {
