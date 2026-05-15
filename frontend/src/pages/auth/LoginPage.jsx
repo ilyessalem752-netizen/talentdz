@@ -32,6 +32,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const user = await login(form.email, form.password);
+      localStorage.setItem('accessToken', user.token);
       toast.success('Connexion réussie !');
       if (user.role === 'student') navigate('/student/dashboard');
       else if (user.role === 'company') navigate('/company/dashboard');
