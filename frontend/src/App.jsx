@@ -1,5 +1,5 @@
 
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -53,7 +53,7 @@ function GuestRoute({ children }) {
 export default function App() {
   return (
     <AuthProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Toaster position="top-right" toastOptions={{ duration: 3500, style: { borderRadius: '12px', fontFamily: 'Plus Jakarta Sans, sans-serif' } }} />
         <Routes>
           {/* Public */}
@@ -92,7 +92,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes> 
         
-      </HashRouter>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
