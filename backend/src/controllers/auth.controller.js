@@ -15,10 +15,14 @@ const sendTokens = (res, user, statusCode = 200, message = 'Succès') => {
   user.save({ validateBeforeSave: false });
 
   // Set refresh token as httpOnly cookie
+  // sameSite:'none' + secure:true is required when frontend and backend are on
+  // different domains (Netlify → Render). 'strict' would silently drop the
+  // cookie on every cross-origin request.
+  const isProd = process.env.NODE_ENV === 'production';
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
