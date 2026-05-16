@@ -31,15 +31,13 @@ export default function LoginPage() {
     if (!validate()) return;
     setLoading(true);
     try {
-  const user = await login(form.email, form.password);
-
-  toast.success('Connexion réussie !');
-
- navigate('/admin/dashboard');
-
-} catch (err) {
-  toast.error(err.response?.data?.message || 'Erreur de connexion');
-
+      const user = await login(form.email, form.password);
+      toast.success('Connexion réussie !');
+      if (user.role === 'student') navigate('/student/dashboard', { replace: true });
+      else if (user.role === 'company') navigate('/company/dashboard', { replace: true });
+      else navigate('/admin/dashboard', { replace: true });
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Erreur de connexion');
     } finally {
       setLoading(false);
     }

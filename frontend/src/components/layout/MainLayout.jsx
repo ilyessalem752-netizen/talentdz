@@ -24,8 +24,10 @@ export default function MainLayout() {
   };
 
   const displayName = profile
-    ? (user.role === 'student' ? `${profile.firstName} ${profile.lastName}` : profile.name)
-    : user?.email;
+    ? (user?.role === 'student'
+        ? `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim()
+        : profile.name ?? user?.email)
+    : user?.email ?? '';
 
   const dashboardPath = user?.role === 'admin' ? '/admin/dashboard'
     : user?.role === 'company' ? '/company/dashboard'

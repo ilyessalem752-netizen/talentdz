@@ -28,32 +28,22 @@ export function AuthProvider({ children }) {
     else setLoading(false);
   }, [fetchMe]);
 
- const login = async (email, password) => {
-  const { data } = await api.post('/auth/login', {
-    email,
-    password
-  });
-
-  const token = data.accessToken || data.token;
-
-  if (token) {
-    localStorage.setItem('accessToken', token);
-  }
-
-  setUser(data.user);
-
-  return {
-    ...data.user,
-    token
+  const login = async (email, password) => {
+    const { data } = await api.post('/auth/login', { email, password });
+    localStorage.setItem('accessToken', data.accessToken);
+    // Set user directly from the login response — do NOT call fetchMe() here.
+    // fetchMe() resets `loading` to true then false, which makes ProtectedLayout
+    // briefly unmount and blocks the navigate() that fires right after login().
+    setUser(data.user);
+    setProfile(null); // profile loads lazily on the dashboard
+    return data.user;
   };
-};
-  
 
   const registerStudent = async (formData) => {
     const { data } = await api.post('/auth/register/student', formData);
     localStorage.setItem('accessToken', data.accessToken);
     setUser(data.user);
-    await fetchMe();
+    setProfile(null);
     return data.user;
   };
 
@@ -61,7 +51,7 @@ export function AuthProvider({ children }) {
     const { data } = await api.post('/auth/register/company', formData);
     localStorage.setItem('accessToken', data.accessToken);
     setUser(data.user);
-    await fetchMe();
+    setProfile(null);
     return data.user;
   };
 
