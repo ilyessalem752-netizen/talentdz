@@ -35,13 +35,7 @@ export default function LoginPage() {
 
   toast.success('Connexion réussie !');
 
-  if (user.role === 'student') {
-    navigate('/student/dashboard');
-  } else if (user.role === 'company') {
-    navigate('/company/dashboard');
-  } else {
-    navigate('/admin/dashboard');
-  }
+ navigate('/admin/dashboard');
 
 } catch (err) {
   toast.error(err.response?.data?.message || 'Erreur de connexion');
