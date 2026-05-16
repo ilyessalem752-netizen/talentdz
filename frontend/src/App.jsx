@@ -83,7 +83,7 @@ export default function App() {
           </Route>
 
           {/* Admin */}
-          <Route path="/admin" element={<PrivateRoute roles={['admin']}><MainLayout /></PrivateRoute>}>
+        <Route path="/admin" element={<MainLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="jobs" element={<AdminJobs />} />
